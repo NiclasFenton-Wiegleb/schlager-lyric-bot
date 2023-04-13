@@ -64,7 +64,7 @@ df = extractor.playlist_to_song_data(playlist_id)
 
 songs = pd.read_csv("schlager_songs.csv")
 
-
+songs.drop_duplicates(inplace= True)
 print(songs)
 print(songs.info())
 
