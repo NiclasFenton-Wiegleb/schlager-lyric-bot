@@ -7,14 +7,41 @@ class DataExtractor:
     def __init__(self) -> None:
         pass
 
-    #def retrieve_genre_content(self, api_url, genre_id, api_headers):
+    def retrieve_playlist_content(self, playlist_id):
+        url = "https://spotify-scraper.p.rapidapi.com/v1/playlist/contents"
 
-f = open("lyrics.json")
+        querystring = {"playlistId":f"{playlist_id}"}
 
-lyrics = json.load(f)
+        headers = {
+            "X-RapidAPI-Key": "9326ac5334mshc91f7d388f4fdc4p1cd407jsn5811a52d1ae0",
+            "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
+        }
 
-for x in lyrics:
-    print(x["text"])
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        playlist_content = response.json()
+
+        with open(f"{playlist_id}content.json", "w") as f:
+            json.dump(playlist_content, f)
+        
+        df = pd.read_json(f"{playlist_id}content.json")
+
+        return df
+
+extractor = DataExtractor()
+
+playlist_id = "2dCNbxILFEJnnEb8h6L4eV"
+
+playlist = extractor.retrieve_playlist_content(playlist_id)
+
+print(playlist)
+
+#f = open("lyrics.json")
+
+#lyrics = json.load(f)
+
+#for x in lyrics:
+#    print(x["text"])
 
 
 
