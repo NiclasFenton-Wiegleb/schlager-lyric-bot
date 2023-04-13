@@ -21,27 +21,28 @@ class DataExtractor:
 
         playlist_content = response.json()
 
-        with open(f"{playlist_id}content.json", "w") as f:
+        with open(f"{playlist_id}_content.json", "w") as f:
             json.dump(playlist_content, f)
         
-        df = pd.read_json(f"{playlist_id}content.json")
 
-        return df
 
-extractor = DataExtractor()
+#extractor = DataExtractor()
 
 playlist_id = "2dCNbxILFEJnnEb8h6L4eV"
 
-playlist = extractor.retrieve_playlist_content(playlist_id)
+#playlist = extractor.retrieve_playlist_content(playlist_id)
 
-print(playlist)
 
-#f = open("lyrics.json")
+f = open(f"{playlist_id}_content.json")
 
-#lyrics = json.load(f)
+playlist_content = json.load(f)
 
-#for x in lyrics:
-#    print(x["text"])
+playlist_song_ids = [x["id"] for x in playlist_content["contents"]["items"]]
+
+print(playlist_song_ids)
+
+#for x in playlist_content:
+    #playlist_song_ids.append()
 
 
 
