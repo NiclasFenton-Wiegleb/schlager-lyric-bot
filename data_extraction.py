@@ -4,10 +4,8 @@ import json
 
 class DataExtractor:
 
-    def __init__(self) -> None:
-        pass
-
-    def retrieve_playlist_content(self, playlist_id):
+    @classmethod
+    def retrieve_playlist_content(cls, playlist_id):
 
         #API request to retrieve playlist data
         url = "https://spotify-scraper.p.rapidapi.com/v1/playlist/contents"
@@ -26,8 +24,9 @@ class DataExtractor:
 
         with open(f"{playlist_id}_content.json", "w") as f:
             json.dump(playlist_content, f)
-        
-    def playlist_to_song_data(self, playlist_id):
+    
+    @classmethod
+    def playlist_to_song_data(cls, playlist_id):
         #Note: retrieve_playlist_content() method needs to be run beforehand
 
         #Open json file with playlist content
@@ -51,22 +50,22 @@ class DataExtractor:
         return df
         
 
+if __name__ = "__main__":
+    extractor = DataExtractor()
 
-extractor = DataExtractor()
+    playlist_id = "6R41RrIjNVNVvPGziXs9F8" 
 
-playlist_id = "6R41RrIjNVNVvPGziXs9F8" 
+    playlist = extractor.retrieve_playlist_content(playlist_id)
 
-#playlist = extractor.retrieve_playlist_content(playlist_id)
+    df = extractor.playlist_to_song_data(playlist_id)
 
-df = extractor.playlist_to_song_data(playlist_id)
+    #df.to_csv("schlager_songs.csv", mode= "a", index= False, header= False)
 
-#df.to_csv("schlager_songs.csv", mode= "a", index= False, header= False)
+    songs = pd.read_csv("schlager_songs.csv")
 
-songs = pd.read_csv("schlager_songs.csv")
-
-songs.drop_duplicates(inplace= True)
-print(songs)
-print(songs.info())
+    songs.drop_duplicates(inplace= True)
+    print(songs)
+    print(songs.info())
 
 
 
