@@ -98,7 +98,7 @@ if __name__ == "__main__":
     #Initialise DataExtractor
     extractor = DataExtractor()
 
-    playlist_id = "6R41RrIjNVNVvPGziXs9F8"
+    playlist_id = "1lZcsX16FNzMdcdUatMHbf"
 
     #Get playlist content using API
     playlist = extractor.retrieve_playlist_content(playlist_id)
