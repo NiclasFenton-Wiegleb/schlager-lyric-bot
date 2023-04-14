@@ -48,30 +48,38 @@ class DataExtractor:
 
         df = pd.DataFrame(song_dict)
         return df
+    
+    
         
 
-if __name__ = "__main__":
+if __name__ == "__main__":
+
+    #Initialise DataExtractor
     extractor = DataExtractor()
 
     playlist_id = "6R41RrIjNVNVvPGziXs9F8" 
 
+    #Get playlist content using API
     playlist = extractor.retrieve_playlist_content(playlist_id)
 
-    df = extractor.playlist_to_song_data(playlist_id)
+    try:
+        #Try extracting song data
+        df = extractor.playlist_to_song_data(playlist_id)
 
-    #df.to_csv("schlager_songs.csv", mode= "a", index= False, header= False)
+        df.to_csv("schlager_songs.csv", mode= "a", index= False, header= False)
 
-    songs = pd.read_csv("schlager_songs.csv")
+        songs = pd.read_csv("schlager_songs.csv")
 
-    songs.drop_duplicates(inplace= True)
-    print(songs)
-    print(songs.info())
+        songs.drop_duplicates(inplace= True)
+        print(songs)
+        print(songs.info())
 
-
-
-#for x in playlist_content:
-    #playlist_song_ids.append()
-
+    except:
+        #Print playlist data if relevant song data can't
+        #be extracted
+        file = open(f"{playlist_id}_content.json")
+        file_content = json.load(file)
+        print(file_content)
 
 
 '''
