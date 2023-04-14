@@ -51,6 +51,7 @@ class DataExtractor:
     
     @classmethod
     def retrieve_song_lyrics(cls, song_id):
+        
         #API request to retrieve playlist data
         url = "https://spotify-scraper.p.rapidapi.com/v1/genre/contents"
 
@@ -62,7 +63,7 @@ class DataExtractor:
         }
 
         response = requests.request("GET", url, headers=headers, params=querystring)
-
+        
         try:
             #Try extracting lyrics from song data and save it as
             #.txt file
@@ -90,7 +91,7 @@ if __name__ == "__main__":
     #Initialise DataExtractor
     extractor = DataExtractor()
 
-    playlist_id = "6R41RrIjNVNVvPGziXs9F8" 
+    playlist_id = "6R41RrIjNVNVvPGziXs9F8"
 
     #Get playlist content using API
     playlist = extractor.retrieve_playlist_content(playlist_id)
@@ -113,27 +114,4 @@ if __name__ == "__main__":
         file = open(f"{playlist_id}_content.json")
         file_content = json.load(file)
         print(file_content)
-
-
-'''
-
-
-print(response.text)
-'''
-''''
-url = "https://spotify-scraper.p.rapidapi.com/v1/track/lyrics"
-
-querystring = {"trackId":"1cSXzDZt8vzuUp2XREQEJN","format":"json"}
-
-headers = {
-	"X-RapidAPI-Key": "9326ac5334mshc91f7d388f4fdc4p1cd407jsn5811a52d1ae0",
-	"X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
-}
-
-response = requests.request("GET", url, headers=headers, params=querystring)
-
-lyrics = response.json()
-
-with open('lyrics.json', 'w') as f:
-    json.dump(lyrics, f)
-    '''
+    
