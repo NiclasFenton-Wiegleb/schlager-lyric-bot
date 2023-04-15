@@ -95,17 +95,14 @@ class DataExtractor:
 
 if __name__ == "__main__":
 
-    #Initialise DataExtractor
-    extractor = DataExtractor()
-
     playlist_id = "1lZcsX16FNzMdcdUatMHbf"
 
     #Get playlist content using API
-    playlist = extractor.retrieve_playlist_content(playlist_id)
+    playlist = DataExtractor.retrieve_playlist_content(playlist_id)
 
     try:
         #Try extracting song data
-        df = extractor.playlist_to_song_data(playlist_id)
+        df = DataExtractor.playlist_to_song_data(playlist_id)
 
         df.to_csv("schlager_songs.csv", mode= "a", index= False, header= False)
 
