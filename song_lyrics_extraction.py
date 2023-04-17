@@ -3,6 +3,7 @@ import pandas as pd
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from bs4 import BeautifulSoup
+from ratelimit import limits, sleep_and_retry
 
 
 class DataExtractor:
@@ -75,7 +76,9 @@ class DataExtractor:
         return lyrics
 
     @classmethod
-    def retrieve_song_lyrics(cls, song_id):
+    @sleep_and_retry
+    @limits(calls= 1, period= 2)
+    def rapidapi_spotify_lyrics(cls, song_id):
         
         #API request to retrieve playlist data
         url = "https://spotify-scraper.p.rapidapi.com/v1/track/lyrics"
@@ -92,19 +95,14 @@ class DataExtractor:
         try:
             #Try extracting lyrics from song data and save it as
             #.txt file
-            song_data = response.json()
+            song_lyrics = response.text
 
-            song_lyrics_ls = []
-
-            for x in song_data:
-                song_lyrics_ls.append(x["text"])
+            save_path = "./lyrics_text"
+        
+            with open(f"{save_path}/{song_id}_lyrics.txt", "w") as f:
+                    f.write(f"{song_lyrics}")
             
-            with open(f"{song_id}_lyrics.txt", "w") as f:
-                for line in song_lyrics:
-                    f.write(f"{line}\n")
-            
-            song_lyrics = " ".join(song_lyrics_ls)
-            return song_lyrics_ls
+            return song_lyrics
         
         except:
             #Print response code if there is an error with the API
@@ -120,20 +118,9 @@ if __name__ == "__main__":
 
     lyrics_ls = []
 
-    for x in df["spotify_id"]:
-        lyrics = DataExtractor.retrieve_song_lyrics(x)
+    test_ids = [df["spotify_id"][x] for x in range(121, 136)]
+
+    for x in test_ids:
+        lyrics = DataExtractor.rapidapi_spotify_lyrics(x)
         lyrics_ls.append(lyrics)
-        print(lyrics)
-    
-    lyrics_ls2 = []
-    
-    for x in lyrics_ls:
-        lyrics = " ".join(x)
-        lyrics_ls2.append(lyrics)
-
-    df["lyrics"] = lyrics_ls2
-
-    df.to_csv("schlager_songs_v2.csv")
-
-    print(df)
-    print(df.info())
+        print(x)
