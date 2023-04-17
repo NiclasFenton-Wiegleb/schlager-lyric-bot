@@ -56,7 +56,7 @@ class DataExtractor:
         return df
     
     @classmethod
-    def scrape_lyrics(artist, title):
+    def scrape_lyrics(cls, artist, title):
 
         #format artist and title and retrieve lyrics from genius.com
         artist2 = str(artist.replace(' ','-')) if ' ' in artist else str(artist)
@@ -71,18 +71,19 @@ class DataExtractor:
             lyrics = lyrics2.get_text()
         elif lyrics1 == lyrics2 == None:
             lyrics = None
+
         return lyrics
 
     @classmethod
     def retrieve_song_lyrics(cls, song_id):
         
         #API request to retrieve playlist data
-        url = "https://spotify-scraper.p.rapidapi.com/v1/genre/contents"
+        url = "https://spotify-scraper.p.rapidapi.com/v1/track/lyrics"
 
-        querystring = {"genreId":"0JQ5DAqbMKFGvOw3O4nLAf"}
+        querystring = {"trackId":f"{song_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "9326ac5334mshc91f7d388f4fdc4p1cd407jsn5811a52d1ae0",
+            "X-RapidAPI-Key": "2238f37000msh6d244cf62a3af3dp15fbc5jsn1038d1d7f943",
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 
@@ -93,16 +94,17 @@ class DataExtractor:
             #.txt file
             song_data = response.json()
 
-            song_lyrics = []
+            song_lyrics_ls = []
 
             for x in song_data:
-                song_lyrics.append(x["text"])
+                song_lyrics_ls.append(x["text"])
             
             with open(f"{song_id}_lyrics.txt", "w") as f:
                 for line in song_lyrics:
                     f.write(f"{line}\n")
             
-            print(song_lyrics)
+            song_lyrics = " ".join(song_lyrics_ls)
+            return song_lyrics_ls
         
         except:
             #Print response code if there is an error with the API
@@ -112,17 +114,26 @@ class DataExtractor:
 
 if __name__ == "__main__":
 
-    #test = DataExtractor.clean_song_data("schlager_songs copy.csv")
-    # df = DataExtractor.retrieve_artist("schlager_songs.csv")
+    # #test = DataExtractor.clean_song_data("schlager_songs copy.csv")
+    # # df = DataExtractor.retrieve_artist("schlager_songs.csv")
     df = pd.read_csv("schlager_songs.csv")
 
-    for x in range(10):
-        artist = df["artist_name"][x]
-        title = df["title"][x]
-        lyrics = DataExtractor.scrape_lyrics(artist, title)
-        df["lyrics"][x] = lyrics
-        print(lyrics)
+    lyrics_ls = []
 
+    for x in df["spotify_id"]:
+        lyrics = DataExtractor.retrieve_song_lyrics(x)
+        lyrics_ls.append(lyrics)
+        print(lyrics)
+    
+    lyrics_ls2 = []
+    
+    for x in lyrics_ls:
+        lyrics = " ".join(x)
+        lyrics_ls2.append(lyrics)
+
+    df["lyrics"] = lyrics_ls2
+
+    df.to_csv("schlager_songs_v2.csv")
 
     print(df)
     print(df.info())
