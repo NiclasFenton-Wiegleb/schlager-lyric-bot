@@ -4,6 +4,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from bs4 import BeautifulSoup
 from ratelimit import limits, sleep_and_retry
+import config
 
 
 class DataExtractor:
@@ -32,7 +33,7 @@ class DataExtractor:
 
         #Establishing connection to Spotify API
         cid = "ed9e37ea51574c2b9bd6e4809e185d7a"
-        secret = "72d7869f54354d1382c568c80d7f3948"
+        secret = config.spotify_secret
 
         client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
         sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
@@ -86,7 +87,7 @@ class DataExtractor:
         querystring = {"trackId":f"{song_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "xxxxxxxxxxx",
+            "X-RapidAPI-Key": config.lyrics_api_key,
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 

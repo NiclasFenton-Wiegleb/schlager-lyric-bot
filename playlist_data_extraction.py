@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import json
+import config
 
 class DataExtractor:
 
@@ -13,7 +14,7 @@ class DataExtractor:
         querystring = {"playlistId":f"{playlist_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "9326ac5334mshc91f7d388f4fdc4p1cd407jsn5811a52d1ae0",
+            "X-RapidAPI-Key": config.playlist_api_key,
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 
