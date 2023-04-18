@@ -13,7 +13,7 @@ class DataExtractor:
         querystring = {"playlistId":f"{playlist_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "xxxxxxxxxxxx",
+            "X-RapidAPI-Key": "9326ac5334mshc91f7d388f4fdc4p1cd407jsn5811a52d1ae0",
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 
@@ -60,6 +60,7 @@ class DataExtractor:
 
 if __name__ == "__main__":
 
+    #Add playlist id found on spotify
     playlist_id = "1lZcsX16FNzMdcdUatMHbf"
 
     #Get playlist content using API
