@@ -86,7 +86,7 @@ class DataExtractor:
         querystring = {"trackId":f"{song_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "xxxxxxxxxxxxx",
+            "X-RapidAPI-Key": "2238f37000msh6d244cf62a3af3dp15fbc5jsn1038d1d7f943",
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 
@@ -112,15 +112,13 @@ class DataExtractor:
 
 if __name__ == "__main__":
 
-    # #test = DataExtractor.clean_song_data("schlager_songs copy.csv")
-    # # df = DataExtractor.retrieve_artist("schlager_songs.csv")
     df = pd.read_csv("schlager_songs.csv")
 
     lyrics_ls = []
 
-    test_ids = [df["spotify_id"][x] for x in range(121, 136)]
+    select_ids = [df["spotify_id"][x] for x in range(121, 136)]
 
-    for x in test_ids:
+    for x in select_ids:
         lyrics = DataExtractor.rapidapi_spotify_lyrics(x)
         lyrics_ls.append(lyrics)
         print(x)
