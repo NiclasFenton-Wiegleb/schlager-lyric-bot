@@ -86,7 +86,7 @@ class DataExtractor:
         querystring = {"trackId":f"{song_id}"}
 
         headers = {
-            "X-RapidAPI-Key": "2238f37000msh6d244cf62a3af3dp15fbc5jsn1038d1d7f943",
+            "X-RapidAPI-Key": "xxxxxxxxxxxxx",
             "X-RapidAPI-Host": "spotify-scraper.p.rapidapi.com"
         }
 
