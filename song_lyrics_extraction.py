@@ -56,25 +56,6 @@ class DataExtractor:
         df.to_csv(f"{csv_file}", mode= "w")
 
         return df
-    
-    @classmethod
-    def scrape_lyrics(cls, artist, title):
-
-        #format artist and title and retrieve lyrics from genius.com
-        artist2 = str(artist.replace(' ','-')) if ' ' in artist else str(artist)
-        title2 = str(title.replace(' ','-')) if ' ' in title else str(title)
-        page = requests.get('https://genius.com/'+ artist2 + '-' + title2 + '-' + 'lyrics')
-        html = BeautifulSoup(page.text, 'html.parser')
-        lyrics1 = html.find("div", class_="lyrics")
-        lyrics2 = html.find("div", class_="Lyrics__Container-sc-1ynbvzw-2 jgQsqn")
-        if lyrics1:
-            lyrics = lyrics1.get_text()
-        elif lyrics2:
-            lyrics = lyrics2.get_text()
-        elif lyrics1 == lyrics2 == None:
-            lyrics = None
-
-        return lyrics
 
     @classmethod
     @sleep_and_retry

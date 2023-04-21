@@ -79,13 +79,13 @@ if __name__ == "__main__":
 
     df = pd.read_csv("schlager_songs.csv")
 
-    # for x in df["spotify_id"]:
-    #     lyrics = DataCleaner.open_text_data(x)
-    #     lyrics_ls.append(lyrics)
+    for x in df["spotify_id"]:
+        lyrics = DataCleaner.open_text_data(x)
+        lyrics_ls.append(lyrics)
 
-    # df = DataCleaner.clean_lyrics_data(df)
+    df = DataCleaner.clean_lyrics_data(df)
 
-    # df.to_csv("schlager_songs.csv", mode= "w")
+    df.to_csv("schlager_songs.csv", mode= "w")
 
     DataCleaner.df_to_txt(df)
 
