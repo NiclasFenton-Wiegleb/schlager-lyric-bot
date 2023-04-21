@@ -1,7 +1,8 @@
 from torch.utils.data import Dataset
 from tokenizers import ByteLevelBPETokenizer
 from tokenizers.processors import BertProcessing
-from transformers import Trainer
+from transformers import TrainingArguments
+import run_lunguage_modeling
 from pathlib import Path
 
 class SchlagerDataset(Dataset):
@@ -21,7 +22,7 @@ class SchlagerDataset(Dataset):
 
         src_files = Path("./training_data/").glob("*-eval.txt") if evaluate else Path("./training_data/").glob("*-train.txt")
         for src_file in src_files:
-            print("🔥", src_file)
+            print("🔥")
             lines = src_file.read_text(encoding="utf-8").splitlines()
             self.examples += [x.ids for x in tokenizer.encode_batch(lines)]
 
@@ -34,25 +35,31 @@ class SchlagerDataset(Dataset):
     
 if __name__ == "__main__":
 
-    sub_dataset = SchlagerDataset(Dataset)
-    length = sub_dataset.__len__
+    sub_dataset = SchlagerDataset()
 
-    print(length)
-
-    # trainer = Trainer(
-    #         model = None
-    #         output_dir = "./model/EsperBERTo-small-v1",
-    #         model_type= "roberta",
-    #         "mlm",
-    #         config_name = "./models/EsperBERTo-small",
-    #         tokenizer_name = "./models/EsperBERTo-small",
-    #         "do_train",
-    #         "do_eval",
-    #         learning_rate = "1e-4"
-    #         --num_train_epochs 5
-    #         --save_total_limit 2
-    #         --save_steps 2000
-    #         --per_gpu_train_batch_size 16
-    #         --evaluate_during_training
-    #         --seed 42
+    # training_arguments = TrainingArguments(
+    #     output_dir = "./model/schlager_bot-v1",
+    #     do_train= True,
+    #     do_eval= True,
+    #     learning_rate = "1e-4",
+    #     num_train_epochs= 5,
+    #     save_total_limit= 2,
+    #     save_steps= 2000,
+    #     per_gpu_train_batch_size= 16,
+    #     evaluation_strategy= "epoch",
+    #     seed= 42
     # )
+
+    # model_arguments = run_lunguage_modeling.ModelArguments(
+    #     model_type= "roberta",
+    #     config_name = "./model/schlager_bot-v1",
+    #     tokenizer_name = "./model/schlager_bot-v1"
+    # )
+
+    # data_training_arguments = run_lunguage_modeling.DataTrainingArguments(
+    #     train_data_files= sub_dataset,
+    #     eval_data_file= Path("./training_data/").glob("Alphonse_Daudet_-_Briefe_aus_meiner_Mühle.txt"),
+    #     mlm= True
+    # )
+
+    model = run_lunguage_modeling.main()
