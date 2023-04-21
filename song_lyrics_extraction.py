@@ -115,11 +115,8 @@ if __name__ == "__main__":
 
     df = pd.read_csv("schlager_songs.csv")
 
-    lyrics_ls = []
+    df_empty = df[df["lyrics"].isnull() == True]
 
-    select_ids = [df["spotify_id"][x] for x in range(121, 136)]
-
-    for x in select_ids:
+    for x in df_empty["spotify_id"]:
         lyrics = DataExtractor.rapidapi_spotify_lyrics(x)
-        lyrics_ls.append(lyrics)
         print(x)
