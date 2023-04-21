@@ -1,5 +1,4 @@
 from pathlib import Path
-
 from tokenizers import ByteLevelBPETokenizer
 
 paths = [str(x) for x in Path("./training_data/").glob("**/*.txt")]
