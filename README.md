@@ -18,6 +18,10 @@ Once this is done, the song_lyrics_extraction.py script uses a Spotify scraper f
 
 Finally, the text_data_cleaning.py script cleans the lyrics text data and saves it in its clean form. To enrich the dataset and give the model a better understanding of german vocabulary and grammar, a chunk of text data is added from a general dataset used for NLP model training and available online (see source below).
 
+## Milestone 2 - Training the Model
+
+## Milestone 3 - Text Generation
+
 
 ## Sources
 
