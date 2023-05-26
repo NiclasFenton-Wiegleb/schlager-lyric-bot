@@ -1,6 +1,6 @@
-#**WIP**
+# **WIP**
 
-#schlager-lyric-bot
+# schlager-lyric-bot
 
 Technologies:
 
