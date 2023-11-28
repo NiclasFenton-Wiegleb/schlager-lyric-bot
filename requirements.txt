@@ -1,5 +1,8 @@
 streamlit
 torch
-transformers
-accelerate
-bitsandbytes
+transformers==4.34.0
+accelerate==0.23.0
+bitsandbytes==0.41.1
+trl==0.4.7
+safetensors>=0.3.1
+peft==0.5.0
