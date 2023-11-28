@@ -12,7 +12,7 @@ def get_model():
     model = AutoModelForCausalLM.from_pretrained(
     model_id,
     low_cpu_mem_usage=True,
-    torch_dtype=torch.float16,
+    # torch_dtype=torch.float16,
     # load_in_4bit=True,
     )
 
@@ -35,12 +35,12 @@ if user_input and button:
     ### Response:
     """
     st.write("Prompt: ", user_input)
-    input = tokenizer([prompt], padding=True, truncation=True, return_tensors="pt")
-    output = model(**input)
+    input = tokenizer(prompt, padding=True, return_tensors="pt")
+    generate_ids = model.generate(input.input_ids, max_length=500, top_p=0.75, temperature=0.95, top_k=15)
+    output = tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     # input_ids = tokenizer(prompt, return_tensors="pt", truncation=True)
     # outputs = model.generate(input_ids=input_ids, pad_token_id=tokenizer.eos_token_id, max_new_tokens=500, do_sample=True, top_p=0.75, temperature=0.95, top_k=15)
 
     st.write("**************")
     st.write(output)
-
 
