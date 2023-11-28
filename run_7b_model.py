@@ -1,7 +1,7 @@
 import requests
 
 API_URL = "https://api-inference.huggingface.co/models/niclasfw/schlager-bot-004"
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "Bearer "}
 
 def query(prompt):
 	response = requests.post(API_URL, headers=headers, json=prompt)
