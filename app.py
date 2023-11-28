@@ -13,7 +13,7 @@ def get_model():
     model_id,
     low_cpu_mem_usage=True,
     torch_dtype=torch.float16,
-    # load_in_4bit=True,
+    load_in_4bit=True,
     )
 
     return tokenizer, model
