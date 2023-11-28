@@ -1,5 +1,3 @@
-!accelerate config
-
 import streamlit as st
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -15,7 +13,7 @@ def get_model():
     model_id,
     low_cpu_mem_usage=True,
     torch_dtype=torch.float16,
-    load_in_4bit=True,
+    # load_in_4bit=True,
     )
 
     return tokenizer, model
@@ -36,10 +34,13 @@ if user_input and button:
 
     ### Response:
     """
-    input_ids = tokenizer(prompt, return_tensors="pt", truncation=True).input_ids
-    outputs = model.generate(input_ids=input_ids, pad_token_id=tokenizer.eos_token_id, max_new_tokens=500, do_sample=True, top_p=0.75, temperature=0.95, top_k=15)
     st.write("Prompt: ", user_input)
+    input = tokenizer([prompt], padding=True, truncation=True, return_tensors="pt")
+    output = model(**input)
+    # input_ids = tokenizer(prompt, return_tensors="pt", truncation=True)
+    # outputs = model.generate(input_ids=input_ids, pad_token_id=tokenizer.eos_token_id, max_new_tokens=500, do_sample=True, top_p=0.75, temperature=0.95, top_k=15)
+
     st.write("**************")
-    st.write(outputs)
+    st.write(output)
 
 
