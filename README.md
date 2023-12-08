@@ -37,7 +37,7 @@ LeoLM/leo-hessianai-7b
 
 ## Text Generation
 
-To use the 7b model and generate Schlager lyrics, run the `run_7b_model.py` file and input a verse when prompted. This script uses an API Inference Endpoint for huggingface hub.
+To use the 7b model, please access the corresponding app in this huggingface space: https://huggingface.co/spaces/niclasfw/schlager-bot-4
 
 ## Sources
 
